@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from '@apollo/client';
 import { Layout, ShipsCatalog } from 'containers';
 import mock from 'mock/index';
-import { GET_SHIPS } from 'graphql/query';
+import { GET_LAUNCHES, GET_CATHEGORIES } from 'graphql/query';
 import withApollo from 'lib/withApollo';
 import { getDataFromTree } from '@apollo/react-ssr';
 //import { useDispatch } from 'react-redux';
@@ -23,21 +23,29 @@ const catalogPage = () => {
   //   });
   // }, []);
 
-  const shipsData = useQuery(GET_SHIPS, {
+  const shipsData = useQuery(GET_LAUNCHES, {
     variables: {
       name: router.query.name,
     },
   });
 
-  const ships = useMemo(
-    () => (!shipsData.loading ? shipsData.data.ships : null),
+  const cathegoriesData = useQuery(GET_CATHEGORIES);
+
+  const launches = useMemo(
+    () => (!shipsData.loading ? shipsData.data.launches : null),
     [shipsData.data]
+  );
+
+  const cathegories = useMemo(
+    () => (!cathegoriesData.loading ? cathegoriesData.data : null),
+    [cathegoriesData.data]
   );
 
   return (
     <Layout>
-      {console.log(ships)}
-      <ShipsCatalog data={mock.catalog} back={ships || []} />
+      {console.log(launches)}
+      {console.log(cathegories)}
+      <ShipsCatalog data={mock.catalog} back={launches || []} />
     </Layout>
   );
 };

@@ -31,9 +31,23 @@ import gql from 'graphql-tag';
 //   }
 // `;
 
-export const GET_SHIPS = gql`
-  query getShips($name: String) {
-    ships(limit: 10, find: { name: $name }) {
+export const GET_LAUNCHES = gql`
+  query getLaunches($name: String) {
+    launches(limit: 9, find: { mission_name: $name }) {
+      mission_name
+    }
+  }
+`;
+
+export const GET_CATHEGORIES = gql`
+  query getCathegories {
+    missions {
+      name
+    }
+    ships {
+      name
+    }
+    rockets {
       name
     }
   }
